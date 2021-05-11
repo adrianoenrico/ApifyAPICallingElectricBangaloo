@@ -20,43 +20,31 @@
 //   the new array (with cheapest offers) should be send as the body/payload of the request.
 
 // import axios from 'axios'
-
-(async () => {
+const offers = []
+for (let i = 0; i < 50000; i++) {
+    offers.push({
+        productId: Math.round(Math.random() * 10000),
+        offerId: i,
+        price: "$" + Math.round(Math.random() * 100)
+    })
+}
+(async (offers) => {
     try {
         console.time("sortedOffers")
         // let offers = await axios.get('https://api.apify.com/v2/datasets/Gv6MxHyGzvPbchfLI/items?clean=true&format=json')
-        let offers = [
-            {
-                "productId": "dgdgfdfg",
-                "offerId": "545g43g34g",
-                "price": "$4.25"
-            },
-            {
-                "productId": "dgdgfdfg",
-                "offerId": "545g12343g34g",
-                "price": "$4.12"
-            },
-            {
-                "productId": "dgdgfdfg123",
-                "offerId": "545g1234543g34g",
-                "price": "$44.00"
-            },
-            {
-                "productId": "dgdgfdfg123",
-                "offerId": "51245g1212334543g34g",
-                "price": "$40.00"
-            },
-        ]
+
         let products = offers.map(e => e.productId)
         products = Array(... new Set(products))
         offers.sort((a, b) => Number(a.price.replace('$', '')) - Number(b.price.replace('$', '')))
-        const sorted = products.map(prod => offers.fin(offer => offer.productId === prod))
+        const sorted = products.map(prod => offers.find(offer => offer.productId === prod))
         // console.log(sorted);
         // axios.post("https://api.apify.com/v2/datasets/Gv6MxHyGzvPbchfLI/items?clean=true&format=json", sortedOffers)
         console.timeEnd("sortedOffers")
-        return sorted
+
+        console.log("sorted: ",sorted.length, sorted);
+        console.log("prods: ",products.length);
     } catch (ex) {
         console.log(ex);
         return;
     }
-})()
+})(offers)
