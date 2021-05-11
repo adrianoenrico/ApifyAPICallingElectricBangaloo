@@ -21,8 +21,9 @@
 
 // import axios from 'axios'
 
-const getBestOffers = async () => {
-    try{
+(async () => {
+    try {
+        console.time("sortedOffers")
         // let offers = await axios.get('https://api.apify.com/v2/datasets/Gv6MxHyGzvPbchfLI/items?clean=true&format=json')
         let offers = [
             {
@@ -48,23 +49,14 @@ const getBestOffers = async () => {
         ]
         let products = offers.map(e => e.productId)
         products = Array(... new Set(products))
-        let sortedOffers = []
-        for (let prod of products) {
-            let sameProd = [];
-            for (let offer of offers) {
-                if (offer.productId == prod) {
-                    sameProd.push(offer)
-                }
-            }
-            sameProd.sort((a, b) => Number(a.price.replace('$','')) - Number(b.price.replace('$','')))
-            sortedOffers.push(sameProd[0])
-        }
+        offers.sort((a, b) => Number(a.price.replace('$', '')) - Number(b.price.replace('$', '')))
+        const sorted = products.map(prod => offers.fin(offer => offer.productId === prod))
+        // console.log(sorted);
         // axios.post("https://api.apify.com/v2/datasets/Gv6MxHyGzvPbchfLI/items?clean=true&format=json", sortedOffers)
-        return sortedOffers
-    }catch(ex){
+        console.timeEnd("sortedOffers")
+        return sorted
+    } catch (ex) {
         console.log(ex);
         return;
     }
-}
-
-console.log(getBestOffers());
+})()
