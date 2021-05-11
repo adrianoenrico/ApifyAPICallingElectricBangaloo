@@ -41,7 +41,7 @@ for (let i = 0; i < 50000; i++) {
         // axios.post("https://api.apify.com/v2/datasets/Gv6MxHyGzvPbchfLI/items?clean=true&format=json", sortedOffers)
         console.timeEnd("sortedOffers")
 
-        console.log("sorted: ",sorted.length, sorted);
+        console.log("sorted: ",sorted.length);
         console.log("prods: ",products.length);
     } catch (ex) {
         console.log(ex);
